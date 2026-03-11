@@ -9,7 +9,7 @@ def plot_sampling_period_hist(time):
     plt.hist(sampling_periods)
     plt.title('Period')
     plt.xlim(0, 0.06)
-    plt.ylim(0,3.5)
+    plt.ylim(0,300)
     plt.grid()
     plt.show()
 

@@ -39,7 +39,6 @@ class R2R_ADC:
         if self.verbose:
             print(digital_value, step, voltage)
         return voltage
-'''
     def successive_approximation_adc(self):
         low=0
         high=255
@@ -47,22 +46,26 @@ class R2R_ADC:
         while (high-low)>1:
             value=(high+low)//2
             self.number_to_dac(value)
-            time.sleep(0.00001)
+            time.sleep(0.001)
             if GPIO.input(self.comp_gpio)==1:
                 high=value
             else:
                 low=value
         return value
     def get_sar_voltage(self):
-        
-'''
+        digital_value = self.successive_approximation_adc()
+        voltage = (digital_value/255)*self.dynamic_range
+        return voltage
+
 if __name__ == "__main__":
     adc=None
     try:
        adc=R2R_ADC(3.2, 0.01, True)
        while True:
-           voltage = adc.get_sc_voltage()
-           print("real", voltage)
+           #voltage = adc.get_sc_voltage()
+           #print("real", voltage)
+           voltage = adc.get_sar_voltage()
+           print(f'Volts:{voltage}')
     except KeyboardInterrupt:
         print("Stop")
     finally:
